@@ -15,6 +15,7 @@ namespace RL
         {
             ListView1.OnInitListItem(InitListItem);
             ListView1.OnFreshListItem(FreshListItem);
+            ListView1.OnRemoveListItem(RemoveListItem);
             ListView1.SetCount(5);
             FreshButton.onClick.AddListener(OnFreshButton);
         }
@@ -29,6 +30,12 @@ namespace RL
         {
             TestListItem1 testListItem1 = item as TestListItem1;
             testListItem1.SetData(index);
+        }
+
+        private void RemoveListItem(int index, ListItem item)
+        {
+            TestListItem1 testListItem1 = item as TestListItem1;
+            testListItem1.OnRemove();
         }
 
         private void OnFreshButton()

@@ -10,6 +10,7 @@ namespace RL
         public ListItem BaseListItem;                               //复用行
         private ListViewController listViewController;
         private Action<int, ListItem> onInitCall;                   //第一次被初始化调用
+        private Action<int, ListItem> onRemoveCall;                 //被移除的时候调用
         private Action<int, ListItem> onFreshCall;                  //每次循环到这个Item调用
         private int count;                                          //设置的最大数量
         private int createCount;                                    //滑动列表创建数量
@@ -27,6 +28,11 @@ namespace RL
         public void OnInitListItem(Action<int, ListItem> initCall)
         {
             this.onInitCall = initCall;
+        }
+
+        public void OnRemoveListItem(Action<int, ListItem> removeCall)
+        {
+            this.onRemoveCall = removeCall;
         }
 
         public void OnFreshListItem(Action<int, ListItem> freshCall)
@@ -77,7 +83,7 @@ namespace RL
         {
             foreach (var item in listItems)
             {
-                item.OnRemove();
+                this.onRemoveCall?.Invoke(item.ItemIndex, item);
                 listViewController.PushListItem(itemInstanceID, item);
             }
             listItems.Clear(); 
